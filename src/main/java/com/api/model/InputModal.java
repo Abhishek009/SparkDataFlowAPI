@@ -2,8 +2,6 @@ package com.api.model;
 
 import javax.persistence.*;
 
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 /*
 – @Entity annotation indicates that the class is a persistent Java class.
 – @Table annotation provides the table that maps this entity.
@@ -14,7 +12,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class InputModal {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
