@@ -1,5 +1,8 @@
 package com.api.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 /*
@@ -9,9 +12,10 @@ import javax.persistence.*;
 – @GeneratedValue annotation is used to define generation strategy for the primary key. GenerationType.AUTO means Auto Increment field.
 – @Column annotation is used to define the column in database that maps annotated field.
 */
-
+@Getter
+@Setter
 @Entity
-@Table(name = "users")
+@Table(name = "InputModal")
 public class InputModal {
 	
 	@Id
@@ -27,64 +31,7 @@ public class InputModal {
 	private String tableName;
 	@Column(name = "directoryFileLocation")
 	private String directoryFileLocation;
+	@Column(name = "datasetType")
+	private String datasettype;
 
-	@Override
-	public String toString() {
-		return "User{" +
-				"id=" + id +
-				", dataSetName='" + dataSetName + '\'' +
-				", sourceType='" + sourceType + '\'' +
-				", schemaName='" + schemaName + '\'' +
-				", tableName='" + tableName + '\'' +
-				", directoryFileLocation='" + directoryFileLocation + '\'' +
-				'}';
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public String getDataSetName() {
-		return dataSetName;
-	}
-
-	public void setDataSetName(String dataSetName) {
-		this.dataSetName = dataSetName;
-	}
-
-	public String getSourceType() {
-		return sourceType;
-	}
-
-	public void setSourceType(String sourceType) {
-		this.sourceType = sourceType;
-	}
-
-	public String getSchemaName() {
-		return schemaName;
-	}
-
-	public void setSchemaName(String schemaName) {
-		this.schemaName = schemaName;
-	}
-
-	public String getTableName() {
-		return tableName;
-	}
-
-	public void setTableName(String tableName) {
-		this.tableName = tableName;
-	}
-
-	public String getDirectoryFileLocation() {
-		return directoryFileLocation;
-	}
-
-	public void setDirectoryFileLocation(String directoryFileLocation) {
-		this.directoryFileLocation = directoryFileLocation;
-	}
 }

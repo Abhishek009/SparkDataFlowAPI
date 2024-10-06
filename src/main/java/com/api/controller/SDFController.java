@@ -46,9 +46,9 @@ public class SDFController {
 	}
 
 	@PutMapping("/addinputdataset")
-	public Optional<InputModal> createInputDataset(@RequestBody InputModal user) {
-		inputModalRepository.save(user);
-		return inputModalRepository.findById(user.getId());
+	public Optional<InputModal> createInputDataset(@RequestBody InputModal inputModal) {
+		inputModalRepository.save(inputModal);
+		return inputModalRepository.findById(inputModal.getId());
 	}
 
 }

@@ -1,5 +1,5 @@
-
-
+select * from public.inputoutput
+Select * from public.users
 
 select users.id as id, users.id as input_data_id,
 users.data_set_name as input_dataset_name,
