@@ -19,7 +19,6 @@ public class InputOutputModal {
     @Column(name = "outputSchemaName")
     private String schemaName;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @ManyToOne
     @JoinColumn(name = "dataSetName")

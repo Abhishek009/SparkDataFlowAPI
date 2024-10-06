@@ -40,14 +40,15 @@ public class SDFController {
 
 	@PostMapping("/saveinputoutput")
 	public List<InputOutputModal> setOutputInputMapping(@RequestBody InputOutputModal data) {
+		System.out.println(data);
 		inputOutputModalRepository.save(data);
 		return inputOutputModalRepository.findAll();
 	}
 
 	@PutMapping("/addinputdataset")
-	public List<InputModal> createInputDataset(@RequestBody InputModal user) {
+	public Optional<InputModal> createInputDataset(@RequestBody InputModal user) {
 		inputModalRepository.save(user);
-		return inputModalRepository.findAll();
+		return inputModalRepository.findById(user.getId());
 	}
 
 }
