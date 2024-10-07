@@ -3,6 +3,7 @@ package com.api.model;
 import com.api.converter.StringListConverter;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@ToString
 @Table(name = "inputoutput")
 public class InputOutputModal {
     @Convert(converter = StringListConverter.class)

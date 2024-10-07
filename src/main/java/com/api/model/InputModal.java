@@ -2,6 +2,7 @@ package com.api.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -15,6 +16,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
+@ToString
 @Table(name = "InputModal")
 public class InputModal {
 	
@@ -32,6 +34,6 @@ public class InputModal {
 	@Column(name = "directoryFileLocation")
 	private String directoryFileLocation;
 	@Column(name = "datasetType")
-	private String datasettype;
+	private String datasetType;
 
 }
