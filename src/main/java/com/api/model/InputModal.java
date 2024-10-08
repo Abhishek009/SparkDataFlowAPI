@@ -35,5 +35,7 @@ public class InputModal {
 	private String directoryFileLocation;
 	@Column(name = "datasetType")
 	private String datasetType;
+	@Column(name = "code")
+	private String code;
 
 }

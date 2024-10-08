@@ -1,6 +1,7 @@
 package com.api.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.api.model.*;
@@ -43,6 +44,26 @@ public class SDFController {
 		System.out.println(data);
 		inputOutputModalRepository.save(data);
 		return inputOutputModalRepository.findAll();
+	}
+
+	@PostMapping("/savecode")
+	public void saveCodeInputModal(@RequestBody Map<String, Object> data) {
+		String code = (String) data.get("code");
+		String id = (String) data.get("nodeid");
+
+		System.out.println("Code: " + code);
+		System.out.println("Node ID: " + id);
+
+		Optional<InputModal> nodeid = inputModalRepository.findById(Long.parseLong(id));
+		if (nodeid.isPresent()) {
+			InputModal inputModal = nodeid.get();
+			inputModal.setCode(code);
+			inputModalRepository.save(inputModal);
+			System.out.println("Code updated successfully.");
+		} else {
+			System.out.println("Node ID not found.");
+		}
+
 	}
 
 	@PutMapping("/addinputdataset")
