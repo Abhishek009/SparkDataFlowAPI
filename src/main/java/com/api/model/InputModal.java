@@ -27,6 +27,8 @@ public class InputModal {
 	private String dataSetName;
 	@Column(name = "sourceType")
     private String sourceType;
+	@Column(name = "sourceFormat")
+	private String sourceFormat;
 	@Column(name = "schemaName")
     private String schemaName;
 	@Column(name = "tableName")

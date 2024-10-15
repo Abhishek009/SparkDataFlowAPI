@@ -14,18 +14,19 @@ import java.util.List;
 @ToString
 @Table(name = "inputoutput")
 public class InputOutputModal {
+    @Id
+    private long id;
     @Convert(converter = StringListConverter.class)
     private List<String> selectedInputNames;
     @Column(name = "outputDataset")
     private String outputDataset;
     @Column(name = "outputDatasetFormat")
     private String format;
-    @Column(name = "outputTableName")
-    private String tableName;
     @Column(name = "outputSchemaName")
     private String schemaName;
-    @Id
-    private long id;
+    @Column(name = "outputTableName")
+    private String tableName;
+
     @ManyToOne
     @JoinColumn(name = "dataSetName")
     private InputModal inputModal;
