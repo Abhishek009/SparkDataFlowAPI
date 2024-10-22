@@ -52,7 +52,7 @@ public class SDFController {
 	@PostMapping("/savecode")
 	public void saveCodeInputModal(@RequestBody Map<String, Object> data) {
 		System.out.println("Code: " + data.get("code"));
-		System.out.println("Node ID: " + data.get("nodeidT667"));
+		System.out.println("Node ID: " + data.get("nodeid"));
 
 		String code = (String) data.get("code");
 		String id = (String) data.get("nodeid");
@@ -102,6 +102,7 @@ public class SDFController {
 
 	@PostMapping("/buildexecuteconfig")
 	public String executeNode(@RequestBody Map<String, Object> data) throws JsonProcessingException {
+
 		String id = (String) data.get("nodeid");
 
 		System.out.println("Node ID: " + id);
@@ -142,7 +143,7 @@ public class SDFController {
 				.map(ExecutionConfigModal::getInputDatasetName)
 				.reduce((a, b) -> a + "," + b)
 				.orElse(""));
-		transform.put("query", "Select * from etl_framework_source_one");
+		transform.put("query", code);
 		transform.put("output", firstDataset.getOutputDataset());
 
 		Map<String, Object> transformWrapper = new HashMap<>();
