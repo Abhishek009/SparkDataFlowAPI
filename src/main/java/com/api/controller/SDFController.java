@@ -1,9 +1,11 @@
 package com.api.controller;
 
+import java.io.IOException;
 import java.util.*;
 
 import com.api.model.*;
 import com.api.repository.*;
+import com.api.util.UtilFunction;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,7 +103,7 @@ public class SDFController {
 	}
 
 	@PostMapping("/buildexecuteconfig")
-	public String executeNode(@RequestBody Map<String, Object> data) throws JsonProcessingException {
+	public String executeNode(@RequestBody Map<String, Object> data) throws IOException {
 		String code = (String) data.get("code");
 		String id = (String) data.get("nodeid");
 
@@ -165,8 +167,9 @@ public class SDFController {
 
 		// Convert job list to YAML
 		YAMLMapper yamlMapper = new YAMLMapper();
-		String d = yamlMapper.writeValueAsString(jobTag);
-		System.out.println(d);
+		String yamlConfig = yamlMapper.writeValueAsString(jobTag);
+		System.out.println(yamlConfig);
+		UtilFunction.writeToFile("src/main/resources/somerandomname.txt",yamlConfig);
 		return code;
 
 	}

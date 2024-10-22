@@ -12,7 +12,7 @@
 	<groupId>com.sdf.api</groupId>
 	<artifactId>SparkDataFlowAPI</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>SDPBackendApi</name>
+	<name>SDF BackendApi</name>
 	<description>Demo project for Spring Boot to build Rest API</description>
 
 	<properties>
@@ -82,6 +82,14 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>11</source>
+					<target>11</target>
 				</configuration>
 			</plugin>
 		</plugins>

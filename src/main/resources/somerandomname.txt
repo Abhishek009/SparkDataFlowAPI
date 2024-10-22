@@ -1,0 +1,28 @@
+---
+jobName: "HiveToHive"
+engine: "spark"
+job:
+- input:
+    schema: "prod1"
+    identifier: "hive"
+    type: "hive"
+    df-name: "sdf_dataset_1"
+    table: "tbl_prod_location1"
+- input:
+    schema: "prod2"
+    identifier: "hive"
+    type: "hive"
+    df-name: "sdf_dataset_2"
+    table: "tbl_prod_location2"
+- transform:
+    output: "out1"
+    t_inputs: "sdf_dataset_1,sdf_dataset_2"
+    query: null
+    df-name: "compute_151_152_out1"
+- output:
+    schema: "prod1"
+    mode: "overwrite"
+    identifier: "hive"
+    type: "hive"
+    df-name: "out1"
+    table: "tbl_prod_location_out1"
