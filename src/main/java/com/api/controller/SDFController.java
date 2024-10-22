@@ -102,21 +102,15 @@ public class SDFController {
 
 	@PostMapping("/buildexecuteconfig")
 	public String executeNode(@RequestBody Map<String, Object> data) throws JsonProcessingException {
-
+		String code = (String) data.get("code");
 		String id = (String) data.get("nodeid");
 
 		System.out.println("Node ID: " + id);
-		String code="";
-		Optional<InputModal> nodeid = inputModalRepository.findById(Long.parseLong(id));
-		if (nodeid.isPresent()) {
-			InputModal inputModal = nodeid.get();
-			code = inputModal.getCode();
-			System.out.println("Code returned"+code);
-		} else {
-			System.out.println("Node ID not found.");
-		}
+
+
 		List<ExecutionConfigModal> executionConfigModalList = executionConfigModalRepository.getConfigMapping(id);
 		System.out.println("executionConfigModalList "+executionConfigModalList.toString());
+		Map<String,Object> jobTag = new HashMap<>();
 		List<Map<String, Object>> job = new ArrayList<>();
 
 		for (ExecutionConfigModal dataset : executionConfigModalList) {
@@ -159,13 +153,19 @@ public class SDFController {
 		output.put("table", firstDataset.getOutputTableName());
 		output.put("schema", firstDataset.getOutputSchemaName());
 		output.put("mode", "overwrite");
+
 		Map<String, Object> outputWrapper = new HashMap<>();
 		outputWrapper.put("output", output);
 		job.add(outputWrapper);
 		System.out.println("Job ===> "+job.toString());
+
+		jobTag.put("jobName","HiveToHive");
+		jobTag.put("engine","spark");
+		jobTag.put("job", job);
+
 		// Convert job list to YAML
 		YAMLMapper yamlMapper = new YAMLMapper();
-		String d = yamlMapper.writeValueAsString(job);
+		String d = yamlMapper.writeValueAsString(jobTag);
 		System.out.println(d);
 		return code;
 
