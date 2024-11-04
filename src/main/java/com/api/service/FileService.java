@@ -17,16 +17,16 @@ import java.lang.management.ManagementFactory;
 @Service
 public class FileService {
 
-    public Boolean executeShell() throws IOException {
+    public static Boolean executeShell(String ymlConfig) throws IOException {
 
         boolean isWindows = System.getProperty("os.name").toLowerCase().startsWith("windows");
 
         ProcessBuilder builder = new ProcessBuilder();
         if (isWindows) {
             System.out.println(System.getProperty("user.dir"));
-            builder.command("D:\\Google_Drive_Rahul\\java_program\\BigData\\LearningJava\\scripts\\echo.bat");
+            builder.command("D:\\echo.bat");
         } else {
-            builder.command("sh", "-c", "sh /somescript_path/dummyscript.sh 2024 123 125");
+            builder.command("sh", "-c", String.format("sh /somescript_path/run_sdf.sh sdf_config %s",ymlConfig));
         }
 
         builder.directory(new File(System.getProperty("user.home")));
@@ -65,10 +65,16 @@ public class FileService {
 
     }
 
-    public static String writeToFile(String filePath,String code) throws IOException {
-        Path path = Paths.get(filePath);
-        Files.writeString(path, code, StandardCharsets.UTF_8);
-        return "";
+    public static boolean writeToFile(String filePath,String code) throws IOException {
+        boolean isFileCreated = false;
+        try{
+            Path path = Paths.get(filePath);
+            Files.writeString(path, code, StandardCharsets.UTF_8);
+            isFileCreated = true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return isFileCreated;
     }
 
 }

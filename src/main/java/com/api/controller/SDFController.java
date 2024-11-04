@@ -1,16 +1,23 @@
 package com.api.controller;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
+import java.util.concurrent.Executors;
 
 import com.api.model.*;
 import com.api.repository.*;
+import com.api.service.FileService;
 import com.api.util.UtilFunction;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
@@ -32,10 +39,32 @@ public class SDFController {
 	ExecutionConfigModalRepository executionConfigModalRepository;
 
 	// Get the list of users
-//	@GetMapping("/allinputdataset")
-//	public List<InputModal> getAllInputDataset() {
-//		return inputModalRepository.findAll();
-//	}
+	@PostMapping("/login")
+	public String getUser(@RequestBody Map<String, Object> userinfo ) {
+		System.out.println("Code: " + userinfo.get("userId"));
+		System.out.println("Node ID: " + userinfo.get("password"));
+
+		return "yes";
+	}
+
+	//@CrossOrigin(origins = "http://localhost:3000")
+	@GetMapping("/log/{userId}")
+	public List<String> getLogs(@PathVariable String userId) {
+		List<String> logs = new ArrayList<>();
+		String logFilePath = "D:/SampleData/Output/sample_log.txt"; // Construct the log file path based on user ID
+
+		try (BufferedReader br = new BufferedReader(new FileReader(logFilePath))) {
+			String line;
+			while ((line = br.readLine()) != null) {
+				System.out.println(line);
+				logs.add(line);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return logs;
+	}
 
 	@GetMapping("/allinputdataset")
 	public List<FlowMapping> getAllInputDataset() {
@@ -44,11 +73,11 @@ public class SDFController {
 	}
 
 	@PostMapping("/saveinputoutput")
-	public Object setOutputInputMapping(@RequestBody InputOutputModal data) {
-		System.out.println(data);
-		inputOutputModalRepository.save(data);
-		System.out.println("inputOutputModalRepository from saveinputoutput "+inputOutputModalRepository.findById(data.getId()));
-		return inputOutputModalRepository.findById(data.getId());
+	public Object setOutputInputMapping(@RequestBody InputOutputModal inputOutputModal) {
+		System.out.println(inputOutputModal);
+		inputOutputModalRepository.save(inputOutputModal);
+		System.out.println("inputOutputModalRepository from saveinputoutput "+inputOutputModalRepository.findById(inputOutputModal.getId()));
+		return inputOutputModalRepository.findById(inputOutputModal.getId());
 	}
 
 	@PostMapping("/savecode")
@@ -169,7 +198,11 @@ public class SDFController {
 		YAMLMapper yamlMapper = new YAMLMapper();
 		String yamlConfig = yamlMapper.writeValueAsString(jobTag);
 		System.out.println(yamlConfig);
-		UtilFunction.writeToFile("src/main/resources/somerandomname.txt",yamlConfig);
+		boolean isFileCreated  = FileService.writeToFile("src/main/resources/somerandomname.txt",yamlConfig);
+		if(isFileCreated ){
+			FileService.executeShell("job_sdf_HiveToHive.yml");
+		}
+
 		return code;
 
 	}
