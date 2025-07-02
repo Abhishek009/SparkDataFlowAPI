@@ -8,9 +8,9 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
 @Getter
 @Setter
+@Entity
 @ToString
 @Table(name = "inputoutput")
 public class InputOutputModal {
@@ -30,6 +30,7 @@ public class InputOutputModal {
     @ManyToOne
     @JoinColumn(name = "dataSetName")
     private InputModal inputModal;
+
 
 
 }

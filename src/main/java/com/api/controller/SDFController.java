@@ -3,26 +3,19 @@ package com.api.controller;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
-import java.util.concurrent.Executors;
-
 import com.api.model.*;
 import com.api.repository.*;
 import com.api.service.FileService;
-import com.api.util.UtilFunction;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 @CrossOrigin
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class SDFController {
 
 	@Autowired
@@ -40,11 +33,18 @@ public class SDFController {
 
 	// Get the list of users
 	@PostMapping("/login")
-	public String getUser(@RequestBody Map<String, Object> userinfo ) {
-		System.out.println("Code: " + userinfo.get("userId"));
+	public ResponseEntity<Map<String, Object>> getUser(@RequestBody Map<String, Object> userinfo ) {
+		System.out.println("Code: " + userinfo.get("email"));
 		System.out.println("Node ID: " + userinfo.get("password"));
+		Map<String, Object> user = new HashMap<>();
+		user.put("email", userinfo.get("email"));
+		user.put("uid", "user-abc-123");
+		user.put("token", "mock-jwt-token");
 
-		return "yes";
+		Map<String, Object> response = new HashMap<>();
+		response.put("success", true);
+		response.put("user", user);
+		return ResponseEntity.ok(response);
 	}
 
 	//@CrossOrigin(origins = "http://localhost:3000")
@@ -73,11 +73,11 @@ public class SDFController {
 	}
 
 	@PostMapping("/saveinputoutput")
-	public Object setOutputInputMapping(@RequestBody InputOutputModal inputOutputModal) {
-		System.out.println(inputOutputModal);
-		inputOutputModalRepository.save(inputOutputModal);
-		System.out.println("inputOutputModalRepository from saveinputoutput "+inputOutputModalRepository.findById(inputOutputModal.getId()));
-		return inputOutputModalRepository.findById(inputOutputModal.getId());
+	public Object setOutputInputMapping(@RequestBody InputOutputModal data) {
+		System.out.println(data);
+		inputOutputModalRepository.save(data);
+		System.out.println("inputOutputModalRepository from saveinputoutput "+inputOutputModalRepository.findById(data.getId()));
+		return inputOutputModalRepository.findById(data.getId());
 	}
 
 	@PostMapping("/savecode")
